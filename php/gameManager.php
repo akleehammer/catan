@@ -37,10 +37,10 @@ class GameManager	{
 			$gameNum = rand(1, 9999999999);
 			$gameNumStr = str_pad($gameNum, 10, "0", STR_PAD_LEFT);
 		}
-		while ($this->isGameIDAvailable($gameNumStr));
+		while ( ! $this->isGameIDAvailable($gameNumStr));
 		
 		## NEED something to check to make sure file was created properly (dir permissions)
-		$gfFP = fopen("./" . $gameNumStr . ".wait", "w");
+		$gfFP = fopen($this->gameFolder . $gameNumStr . ".wait", "w");
 		
 		fwrite($gfFP, $creator . "\n");
 		fclose($gfFP);
