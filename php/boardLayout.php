@@ -6,6 +6,9 @@ class BoardTile	{
 	//private static $SETTLECITY_POS = array("topLeft", "topRight", "bottomLeft" , "bottomRight");
 	//private static $ROAD_POS = array("top", "left", "right", "bottom");
 	
+	private $row = 0;
+	private $col=0;
+	
 	private $topRoad = "";
 	private $bottomRoad = "";
 	private $rightRoad = "";
@@ -18,6 +21,56 @@ class BoardTile	{
 	
 	private $resourceType = "desert";
 	private $rollNumber = 0;
+	
+	public function __construct($row, $column) {
+		$this->row = $row;
+		$this->col = $column;
+	}
+	
+	public function createXML($xmlDoc, $tileTag)
+	{
+		$tileXML = $xmlDoc->createElement($tileTag);
+		$tileXML->setAttribute("Row", $this->row);
+		$tileXML->setAttribute("Col", $this->col);
+		$tileXML->setAttribute("ResType", $this->getResourceType());
+		//Roads
+		$tileXML->setAttribute("TR", $this->topRoad);
+		$tileXML->setAttribute("LR", $this->leftRoad);
+		$tileXML->setAttribute("RR", $this->rightRoad);
+		$tileXML->setAttribute("BR", $this->bottomRoad);
+		//Occupations (City/Settlement)
+		$tileXML->setAttribute("TLC", $this->topLeftCorner);
+		$tileXML->setAttribute("TRC", $this->topRightCorner);
+		$tileXML->setAttribute("BLC", $this->bottomLeftCorner);
+		$tileXML->setAttribute("BRC", $this->bottomRightCorner);
+		
+		return $tileXML;
+	}
+	
+	public function reconstructTile($tileXML)
+	{
+		$this->row = $tileXML->attributes()->Row;
+		$this->col = $tileXML->attributes()->Col;
+		$this->setResourceType($tileXML->attributes()->ResType);
+		$this->setRollNumber($tileXML->attributes()->DieNumber);
+		
+		$this->topRoad = $tileXML->attibutes()->TR;
+		$this->rightRoad = $tileXML->attibutes()->RR;
+		$this->leftRoad = $tileXML->attibutes()->LR;
+		$this->bottomRoad = $tileXML->attibutes()->BR;
+		
+		$this->topLeftCorner = $tileXML->attributes()->TLC;
+		$this->topRightCorner = $tileXML->attributes()->TRC;
+		$this->bottomLeftCorner = $tileXML->attributes()->BLC;
+		$this->bottomRightCorner = $tileXML->attributes()->BRC;
+	}
+	
+	public function getRow()
+	{	return $this->row;	}
+	
+	public function getColumn()
+	{	return $this->col;	}
+	
 	
 	public function setResourceType($type)
 	{
@@ -158,6 +211,7 @@ class BoardLayout	{
 	private $xmlFile = "";
 	private $boardLayout;
 	private $robber;
+	private $tilesByDieNumber = array();
 	
 	public function createLayout() {
 		$dieArray = array(2,3,4,5,6,8,9,10,11,12);
@@ -182,7 +236,20 @@ class BoardLayout	{
 	
 	public function reconstructLayout($boardXML)
 	{
+		$this->robber["Row"] = $boardXML->Robber->attributes()->Row;
+		$this->robber["Col"] = $boardXML->Robber->attributes()->Col;
 		
+		$tiles = $boardXML->Tiles->Tile;
+		
+		$this->boardLayout = array_fill(0, 4, array_fill(0, 4, 0));
+		
+		foreach ($tiles as $tileXML)
+		{
+			$tempTile = BoardTile(0,0);
+			$tempTile->reconstructTile($tileXML);
+			$this->boardLayout[$tempTile->getRow()] [$tempTile->getColumn()] = $tempTile;
+			
+		}
 		
 	}
 	
@@ -202,40 +269,25 @@ class BoardLayout	{
 		$topTilesXML = $xmlDoc->createElement("Tiles");
 		$boardXML->appendChild($topTilesXML);
 		
-		foreach ($this->boardLayout as $rowNum => $row)
+		foreach ($this->boardLayout as $row)
 		{
-			foreach ($row as $colNum => $boardTile)
+			foreach ($row as $boardTile)
 			{
 				/* @var $boardTile BoardTile			 */
-				$tileXML = $xmlDoc->createElement("Tile");
-				$topTilesXML->appendChild($tileXML);
-				$tileXML->setAttribute("Row", $rowNum);
-				$tileXML->setAttribute("Col", $colNum);
-				$tileXML->setAttribute("ResType", $boardTile->getResourceType());
-				//Roads
-				$tileXML->setAttribute("TR", $boardTile->getRoad("top"));
-				$tileXML->setAttribute("LR", $boardTile->getRoad("left"));
-				$tileXML->setAttribute("RR", $boardTile->getRoad("right"));
-				$tileXML->setAttribute("BR", $boardTile->getRoad("bottom"));
-				//Occupations (City/Settlement)
-				$tileXML->setAttribute("TLC", $boardTile->getOccupation("topLeft"));
-				$tileXML->setAttribute("TRC", $boardTile->getOccupation("topRight"));
-				$tileXML->setAttribute("BLC", $boardTile->getOccupation("bottomLeft"));
-				$tileXML->setAttribute("BRC", $boardTile->getOccupation("bottomRight"));
+				
+				$topTilesXML->appendChild($boardTile->createXML($xmlDoc, "Tile"));
+				
 			}
 		}
 		return $boardXML;
-	}
-	
-	private function parseXMLFile($xmlFile)	{
-		$xmlHandle = simplexml_load_file($xmlFile);
 	}
 	
 	public function getGameBoard()
 	{
 		return $this->boardLayout;	
 	}
-			
+	
+	
 	
 	private function generateGameBoard($resourceLayout, $dieLayout)	{
 		// Board is 4x4 with 16 resource tiles. Only 15 die rolls because the single desert tile must be 7. 
@@ -250,7 +302,7 @@ class BoardLayout	{
 		{
 			for($column=0; $column < 4; $column++)
 			{
-				$tile = new BoardTile();
+				$tile = new BoardTile($row, $column);
 				
 				$rollNumber = 7;
 				$resType = $resourceLayout[$resourceIndex];
@@ -268,6 +320,9 @@ class BoardLayout	{
 				$tile->setResourceType($resType);
 				$tile->setRollNumber($rollNumber);
 				$this->boardArray[$row][$column] = $tile;
+				
+				$currTiles = $this->tilesByDieNumber[strval($rollNumber)];
+				
 			}
 		}
 	}
