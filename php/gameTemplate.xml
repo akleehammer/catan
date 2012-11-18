@@ -10,27 +10,49 @@ and open the template in the editor.
     <Players>
         <Player id="<id number>"> 
             <Points>0</Points>
-            <Cards>
+            <Resources>
                 <Brick>0</Brick>
                 <Lumber>0</Lumber>
                 <Ore>0</Ore>
                 <Wheat>0</Wheat>
                 <Wool>0</Wool>
-            </Cards>
+            </Resources>
         </Player>
         <Player id="<id number>">
             <Points>0</Points>
-            <Cards>
+            <Resources>
                 <Brick>0</Brick>
                 <Lumber>0</Lumber>
                 <Ore>0</Ore>
                 <Wheat>0</Wheat>
                 <Wool>0</Wool>
-            </Cards>
+            </Resources>
         </Player>
     </Players>
     <GameBoard>
-        
+		<Robber Row="0" Col="0"/>
+		<Tiles>
+			<Tile Row="0" Col="0" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="0" Col="1" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="0" Col="2" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="0" Col="3" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+
+			<Tile Row="1" Col="0" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="1" Col="1" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="1" Col="2" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="1" Col="3" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+
+			<Tile Row="3" Col="0" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="3" Col="1" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="3" Col="2" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="3" Col="3" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+
+			<Tile Row="4" Col="0" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="4" Col="1" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="4" Col="2" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+			<Tile Row="4" Col="3" ResourceType="" DieNumber="" TR="" LR="" RR="" BR="" TLC="" TRC="" BLC="" BRC=""/>
+		</Tiles>
+<!--			
         <Corner Row="0" Column="0" ResourceType="" DieNumber="" Occupation="Empty" RRoad="Empty" DRoad="Empty"/>
         <Corner Row="0" Column="1" ResourceType="" DieNumber="" Occupation="Empty" RRoad="Empty" DRoad="Empty"/>
         <Corner Row="0" Column="2" ResourceType="" DieNumber="" Occupation="Empty" RRoad="Empty" DRoad="Empty"/>
@@ -72,6 +94,8 @@ and open the template in the editor.
         <Corner Row="5" Column="3" ResourceType="" DieNumber="" Occupation="Empty" RRoad="Empty" DRoad="Empty"/>
         <Corner Row="5" Column="4" ResourceType="" DieNumber="" Occupation="Empty" RRoad="Empty" DRoad="Empty"/>
         <Corner Row="5" Column="5" ResourceType="" DieNumber="" Occupation="Empty" RRoad="Empty" DRoad="Empty"/>
+
+-->
     </GameBoard>
     
 </CatanGame>
