@@ -64,6 +64,15 @@ class GameManager	{
 		
 		return $game;
 	}
+	
+	public function getGameXML($gameID)
+	{
+		if ($this->isGame($gameID))
+			return $this->gameFolder . $gameID . ".xml";
+		
+		return "";
+		
+	}
 		
 	public function isGameIDAvailable($gameID)
 	{
