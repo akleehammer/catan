@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
     require_once 'php/force_authentication.php';
+    require_once 'php/gameManager.php';
 ?>
 <head>
 	<title>TEST</title>
@@ -42,7 +43,16 @@
                     <td>
                         Join a game<br />
                         <form method="post" action="">
-                            LIST OF AVAILABLE GAMES<br />
+                            <div>
+                                <?php
+                                    $gm = new GameManager();
+                                    $gameList = $gm->getGameList();
+                                    
+                                    foreach ($gameList as $game) {
+                                        echo $game . "<br />";
+                                    }
+                                ?>
+                            </div>
                             <input type="submit" value="Join Game" name="join">
                         </form>
                     </td>
