@@ -20,8 +20,13 @@ class Player {
 	
 	public function reconstruct($playerXML)
 	{
-		
-		
+		$this->victoryPoints = $playerXML->Points;
+		$resNode = $playerXML->Resources;
+		$this->brickCards = $resNode->Brick;
+		$this->lumberCards = $resNode->Lumber;
+		$this->oreCards = $resNode->Ore;
+		$this->wheatCards = $resNode->Wheat;
+		$this->woolCards = $resNode->Wool;		
 	}
 
 	public function addCard($cardType, $number) {
