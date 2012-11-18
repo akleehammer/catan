@@ -6,16 +6,22 @@ class Player {
 	
 	private $id;
 
-	private $brickCards;
-	private $lumberCards;
-	private $oreCards;
-	private $wheatCards;
-	private $woolCards;
+	private $brickCards = 0;
+	private $lumberCards = 0;
+	private $oreCards = 0;
+	private $wheatCards = 0;
+	private $woolCards = 0;
 	
-	private $victoryPoints;
+	private $victoryPoints = 0;
 
 	public function __construct($id) {
 		$this->id = $id;
+	}
+	
+	public function reconstruct($playerXML)
+	{
+		
+		
 	}
 
 	public function addCard($cardType, $number) {
@@ -107,8 +113,47 @@ class Player {
 		return true;
 	}
 	
-	
-
+	public function getPlayerXML($xmlDoc, $xmlTag)
+	{
+		/* @var $xmlDoc DOMDocument */
+		$playerXML = $xmlDoc->createElement($xmlTag);
+		$playerXML->setAttribute("id", $this->id);
+		$pointsXML = $xmlDoc->createElement("Points");
+		$playerXML->appendChild($pointsXML);
+		$pointsText = $xmlDoc->createTextNode($this->victoryPoints);
+		$pointsXML->appendChild($pointsText);
+		
+		//Resources
+		$resXML = $xmlDoc->createElement("Resources");
+		$playerXML->appendChild($resXML);
+		
+		$brickXML = $xmlDoc->createAttribute("Brick");
+		$brickText = $xmlDoc->createTextNode($this->brickCards);
+		$brickXML->appendChild($brickText);
+		$resXML->appendChild($brickXML);
+		
+		$lumberXML = $xmlDoc->createAttribute("Lumber");
+		$lumberText = $xmlDoc->createTextNode($this->lumberCards);
+		$lumberXML->appendChild($lumberText);
+		$resXML->appendChild($lumberXML);
+		
+		$oreXML = $xmlDoc->createAttribute("Ore");
+		$oreText = $xmlDoc->createTextNode($this->oreCards);
+		$oreXML->appendChild($oreText);
+		$resXML->appendChild($oreXML);
+		
+		$wheatXML = $xmlDoc->createAttribute("Wheat");
+		$wheatText = $xmlDoc->createTextNode($this->wheatCards);
+		$wheatXML->appendChild($wheatText);
+		$resXML->appendChild($wheatXML);
+		
+		$woolXML = $xmlDoc->createAttribute("Wool");
+		$woolText = $xmlDoc->createTextNode($this->woolCards);
+		$woolXML->appendChild($woolText);
+		$resXML->appendChild($woolXML);
+		
+		return $playerXML;
+	}
 }
 
 ?>
