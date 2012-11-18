@@ -41,7 +41,7 @@ nav ul li {
 }
 
 #main-container {
-	width:920px;
+	width:85%;
 	padding:-10px;
 	overflow:hidden;
 	margin-left:auto;
@@ -67,22 +67,22 @@ nav ul li {
 
 #left-sidebar img {
 	height:50px;
-	width:50px;
+	width:20%;
 }
 
 #right-sidebar {
 	position:relative;
-	float:left;
-	width:200px;
-	text-align:right;
+	float:right;
+	width:20%;
 }
 
 #center {
 	position:relative;
 	float:left;
-	width:425px;
+	width:45%;
 	margin-left:25px;
 	margin-right:25px;
+	padding-left: 8%;
 }
 
 #center img {
