@@ -53,11 +53,11 @@ class GameManager	{
 		{
 			throw new Exception("Game ID doesn't exist");
 		}
-		$fileContent = file("./" . $gameID . ".wait");
+		$fileContent = file($this->gameFolder . $gameID . ".wait");
 		$creator = $fileContent[0];
 		## NEED to pass XML file or assume Game.php will create it.
 		$game = Game::Game($creator, $gameID);
-		unlink("./" . $gameID . ".wait");
+		unlink($this->gameFolder . $gameID . ".wait");
 		if(($key = array_search($gameID, $this->waitingGameList)) !== false) {
 			unset($this->waitingGameList[$key]);
 		}
